@@ -361,6 +361,10 @@ public class IabHelper {
      */
     public void launchPurchaseFlow(Activity act, String sku, String itemType, int requestCode,
                         OnIabPurchaseFinishedListener listener, String extraData) {
+        if(mService == null) {
+            Log.e("InAppBilling service not initialized properly");
+            return;
+        }
         checkNotDisposed();
         checkSetupDone("launchPurchaseFlow");
         IabResult result;
@@ -637,6 +641,10 @@ public class IabHelper {
      * @throws IabException if there is a problem during consumption.
      */
     void consume(Purchase itemInfo) throws IabException {
+        if(mService == null) {
+            Log.e("InAppBilling service not initialized properly");
+            return;
+        }
         checkNotDisposed();
         checkSetupDone("consume");
 
@@ -800,6 +808,10 @@ public class IabHelper {
 
     int queryPurchases(Inventory inv, String itemType) throws JSONException, RemoteException {
         // Query purchases
+        if(mService == null) {
+            Log.e("InAppBilling service not initialized properly");
+            return;
+        }
         logDebug("Querying owned items, item type: " + itemType);
         logDebug("Package name: " + mContext.getPackageName());
         boolean verificationFailed = false;
@@ -863,6 +875,10 @@ public class IabHelper {
 
     int querySkuDetails(String itemType, Inventory inv, List<String> moreSkus)
                                 throws RemoteException, JSONException {
+        if(mService == null) {
+            Log.e("InAppBilling service not initialized properly");
+            return;
+        }
         logDebug("Querying SKU details.");
         ArrayList<String> skuList = new ArrayList<String>();
         skuList.addAll(inv.getAllOwnedSkus(itemType));
