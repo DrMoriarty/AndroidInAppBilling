@@ -366,7 +366,7 @@ public class IabHelper {
     public void launchPurchaseFlow(Activity act, String sku, String itemType, int requestCode,
                         OnIabPurchaseFinishedListener listener, String extraData) {
         if(mService == null || mContext == null || !mSetupDone) {
-            Log.e("InAppBilling service not initialized properly");
+            Log.e(mDebugTag, "InAppBilling service not initialized properly");
             return;
         }
         checkNotDisposed();
@@ -646,7 +646,7 @@ public class IabHelper {
      */
     void consume(Purchase itemInfo) throws IabException {
         if(mService == null || mContext == null || !mSetupDone) {
-            Log.e("InAppBilling service not initialized properly");
+            Log.e(mDebugTag, "InAppBilling service not initialized properly");
             return;
         }
         checkNotDisposed();
@@ -813,8 +813,8 @@ public class IabHelper {
     int queryPurchases(Inventory inv, String itemType) throws JSONException, RemoteException {
         // Query purchases
         if(mService == null || mContext == null || !mSetupDone) {
-            Log.e("InAppBilling service not initialized properly");
-            return;
+            Log.e(mDebugTag, "InAppBilling service not initialized properly");
+            return IABHELPER_ERROR_BASE;
         }
         logDebug("Querying owned items, item type: " + itemType);
         logDebug("Package name: " + mContext.getPackageName());
@@ -880,8 +880,8 @@ public class IabHelper {
     int querySkuDetails(String itemType, Inventory inv, List<String> moreSkus)
                                 throws RemoteException, JSONException {
         if(mService == null || mContext == null || !mSetupDone) {
-            Log.e("InAppBilling service not initialized properly");
-            return;
+            Log.e(mDebugTag, "InAppBilling service not initialized properly");
+            return IABHELPER_ERROR_BASE;
         }
         logDebug("Querying SKU details.");
         ArrayList<String> skuList = new ArrayList<String>();
