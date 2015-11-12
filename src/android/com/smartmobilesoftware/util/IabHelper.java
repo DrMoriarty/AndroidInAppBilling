@@ -280,9 +280,13 @@ public class IabHelper {
     public void dispose() {
         logDebug("Disposing.");
         mSetupDone = false;
-        if (mServiceConn != null) {
-            logDebug("Unbinding from service.");
-            if (mContext != null) mContext.unbindService(mServiceConn);
+        try {
+            if (mServiceConn != null) {
+                logDebug("Unbinding from service.");
+                if (mContext != null) mContext.unbindService(mServiceConn);
+            }
+        } catch (IllegalArgumentException e) {
+            logDebug("Service not registered");
         }
         mDisposed = true;
         mContext = null;
@@ -361,7 +365,7 @@ public class IabHelper {
      */
     public void launchPurchaseFlow(Activity act, String sku, String itemType, int requestCode,
                         OnIabPurchaseFinishedListener listener, String extraData) {
-        if(mService == null) {
+        if(mService == null || mContext == null || !mSetupDone) {
             Log.e("InAppBilling service not initialized properly");
             return;
         }
@@ -641,7 +645,7 @@ public class IabHelper {
      * @throws IabException if there is a problem during consumption.
      */
     void consume(Purchase itemInfo) throws IabException {
-        if(mService == null) {
+        if(mService == null || mContext == null || !mSetupDone) {
             Log.e("InAppBilling service not initialized properly");
             return;
         }
@@ -808,7 +812,7 @@ public class IabHelper {
 
     int queryPurchases(Inventory inv, String itemType) throws JSONException, RemoteException {
         // Query purchases
-        if(mService == null) {
+        if(mService == null || mContext == null || !mSetupDone) {
             Log.e("InAppBilling service not initialized properly");
             return;
         }
@@ -875,7 +879,7 @@ public class IabHelper {
 
     int querySkuDetails(String itemType, Inventory inv, List<String> moreSkus)
                                 throws RemoteException, JSONException {
-        if(mService == null) {
+        if(mService == null || mContext == null || !mSetupDone) {
             Log.e("InAppBilling service not initialized properly");
             return;
         }
