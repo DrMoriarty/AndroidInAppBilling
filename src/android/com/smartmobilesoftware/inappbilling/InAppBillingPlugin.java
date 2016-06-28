@@ -150,7 +150,7 @@ public class InAppBillingPlugin extends CordovaPlugin {
                 // Hooray, IAB is fully set up. Now, let's get an inventory of stuff we own.
                 initialized = true;
 
-                 Action actionInstance = new Action(plugin, mHelper, callbackContext);
+                Action actionInstance = new Action(plugin, mHelper, callbackContext);
                 if(skus.size() <= 0){
 					Log.d(TAG, "Setup successful. Querying inventory.");
                 	actionInstance.refreshPurchases();
@@ -169,7 +169,7 @@ public class InAppBillingPlugin extends CordovaPlugin {
         Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
         this.endActivity();
         // Pass on the activity result to the helper for handling
-        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+        if (mHelper == null || !mHelper.handleActivityResult(requestCode, resultCode, data)) {
             // not handled, so handle it ourselves (here's where you'd
             // perform any handling of activity results not related to in-app
             // billing...

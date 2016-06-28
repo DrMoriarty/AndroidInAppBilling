@@ -93,11 +93,13 @@ public class Action {
 
 
 	public void refreshPurchases(final List<String> skus) {
-		mHelper.queryInventoryAsync(true, skus, mGotInventoryListener);
+        if(mHelper.isSetupDone())
+            mHelper.queryInventoryAsync(true, skus, mGotInventoryListener);
 	}
 
 	public void refreshPurchases() {
-		mHelper.queryInventoryAsync(mGotInventoryListener);
+        if(mHelper.isSetupDone())
+            mHelper.queryInventoryAsync(mGotInventoryListener);
 	}
 
 	// Buy an item
